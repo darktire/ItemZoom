@@ -1,6 +1,6 @@
 package mezz.itemzoom.client.compat;
 
-import mezz.itemzoom.client.RenderHandler;
+import mezz.itemzoom.client.render.RenderHandler;
 import mezz.jei.api.gui.handlers.IGlobalGuiHandler;
 import net.minecraft.client.renderer.Rect2i;
 

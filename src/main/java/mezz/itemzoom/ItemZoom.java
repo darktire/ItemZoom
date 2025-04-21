@@ -1,6 +1,5 @@
 package mezz.itemzoom;
 
-import mezz.itemzoom.client.Constants;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.IExtensionPoint;
@@ -8,8 +7,10 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkConstants;
 
-@Mod(Constants.MOD_ID)
+@Mod(ItemZoom.MOD_ID)
 public class ItemZoom {
+	public static final String MOD_NAME = "Item Zoom";
+	public static final String MOD_ID = "itemzoom";
 	public ItemZoom() {
 		// Make sure the mod being absent on the other network side does not cause the client to
 		// display the server as incompatible

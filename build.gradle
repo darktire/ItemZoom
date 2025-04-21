@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://maven.aliyun.com/repository/public/" }
         mavenCentral()
     }
     dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: '5.1.+', changing: true
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: '6.+', changing: true
     }
 }
 
@@ -14,7 +15,6 @@ plugins {
     id 'idea'
 }
 apply plugin: "net.minecraftforge.gradle"
-apply from: "buildtools/AppleSiliconSupport.gradle"
 
 // these are required for the java plugin to generate jar files with a version
 version = "${version_major}.${version_minor}.${version_patch}"
@@ -31,6 +31,7 @@ minecraft {
 
     runs {
         client {
+//            jvmArgs "-XX:+AllowEnhancedClassRedefinition"
             property 'forge.logging.console.level', 'debug'
             workingDirectory file('run')
             mods {
@@ -52,6 +53,16 @@ minecraft {
 }
 
 repositories {
+    flatDir {
+        dir 'libs'
+    }
+    maven {
+        name = "Curse Maven"
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
     maven {
         // location of the maven that hosts JEI files since January 2023
         name = "Jared's maven"
@@ -87,6 +98,8 @@ jar {
                 "Automatic-Module-Name": "mezz.itemzoom",
         ])
     }
+
+    finalizedBy 'reobfJar'
 }
 
 def replaceResources = tasks.register("replaceResources", Copy) {

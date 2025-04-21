@@ -1,6 +1,7 @@
 package mezz.itemzoom.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import mezz.itemzoom.ItemZoom;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -21,14 +22,12 @@ public class KeyBindings {
 	}
 
 	private KeyBindings(RegisterKeyMappingsEvent registerEvent) {
-		InputConstants.Key zKey = InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_Z);
-		InputConstants.Key none = InputConstants.UNKNOWN;
-		String category = Constants.MOD_NAME;
+		String category = ItemZoom.MOD_NAME;
 		KeyMapping[] allBindings = {
-			toggle = new KeyMapping("key.itemzoom.toggle", KeyConflictContext.GUI, KeyModifier.SHIFT, zKey, category),
-			hold = new KeyMapping("key.itemzoom.hold", KeyConflictContext.GUI, KeyModifier.NONE, none, category),
-			zoomIn = new KeyMapping("key.itemzoom.zoom.in", KeyConflictContext.GUI, KeyModifier.NONE, none, category),
-			zoomOut = new KeyMapping("key.itemzoom.zoom.out", KeyConflictContext.GUI, KeyModifier.NONE, none, category)
+			toggle = new KeyMapping("key.itemzoom.toggle", KeyConflictContext.GUI, KeyModifier.SHIFT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, category),
+			hold = new KeyMapping("key.itemzoom.hold", KeyConflictContext.GUI, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, category),
+			zoomIn = new KeyMapping("key.itemzoom.zoom.in", KeyConflictContext.GUI, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, category),
+			zoomOut = new KeyMapping("key.itemzoom.zoom.out", KeyConflictContext.GUI, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, category)
 		};
 		for (KeyMapping binding : allBindings) {
 			registerEvent.register(binding);

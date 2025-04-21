@@ -3,7 +3,7 @@ package mezz.itemzoom;
 import com.mojang.blaze3d.platform.InputConstants;
 import mezz.itemzoom.client.InputHandler;
 import mezz.itemzoom.client.KeyBindings;
-import mezz.itemzoom.client.RenderHandler;
+import mezz.itemzoom.client.render.RenderHandler;
 import mezz.itemzoom.client.config.Config;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;

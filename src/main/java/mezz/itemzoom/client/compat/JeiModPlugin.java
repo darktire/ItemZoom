@@ -2,7 +2,7 @@ package mezz.itemzoom.client.compat;
 
 import java.util.Optional;
 
-import mezz.itemzoom.client.Constants;
+import mezz.itemzoom.ItemZoom;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
@@ -16,7 +16,7 @@ public class JeiModPlugin implements IModPlugin {
 
 	@Override
 	public ResourceLocation getPluginUid() {
-		return new ResourceLocation(Constants.MOD_ID, "plugin");
+		return new ResourceLocation(ItemZoom.MOD_ID, "plugin");
 	}
 
 	@Override
