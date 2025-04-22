@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,12 +25,16 @@ public class RenderHandler {
 	private static Rect2i renderedThisFrame = null;
 	private final Config config;
 	private final Supplier<Boolean> isEnableKeyHeld;
-	private final ComponentItem itemRenderComponent;
+	private final ComponentFrame componentFrame;
+	private final ComponentModel componentModel;
+	private final ComponentItem componentItem;
 
 	public RenderHandler(Config config, Supplier<Boolean> isEnableKeyHeld) {
 		this.config = config;
 		this.isEnableKeyHeld = isEnableKeyHeld;
-		this.itemRenderComponent = new ComponentItem(config);
+		this.componentFrame = new ComponentFrame(config);
+		this.componentModel = new ComponentModel(config);
+		this.componentItem = new ComponentItem(config);
 	}
 
 	public void onScreenDrawn() {
@@ -51,10 +56,16 @@ public class RenderHandler {
 		Minecraft minecraft = Minecraft.getInstance();
 		Screen currentScreen = minecraft.screen;
 		if (currentScreen instanceof AbstractContainerScreen<?> containerScreen) {
-			Rect2i renderArea = itemRenderComponent.getRenderingArea(containerScreen, x);
-			// avoid rendering zoomed items in the same space as the item being hovered over
+			Rect2i renderArea = componentFrame.getRenderingArea(containerScreen, x);
+				// avoid rendering zoomed items in the same space as the item being hovered over
 			if (!renderArea.contains(x, y)) {
-				if (itemRenderComponent.renderZoomedStack(guiGraphics, itemStack, renderArea, minecraft)) {
+				boolean draw;
+				if (itemStack.getItem() instanceof ArmorItem) {
+					draw = componentModel.finalDraw(guiGraphics, itemStack, renderArea, minecraft);
+				} else {
+					draw = componentItem.finalDraw(guiGraphics, itemStack, renderArea, minecraft);
+				}
+				if (draw) {
 					renderedThisFrame = renderArea;
 				}
 			}

@@ -3,8 +3,6 @@ package mezz.itemzoom.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import mezz.itemzoom.ItemZoom;
-import mezz.itemzoom.client.KeyBindings;
 import mezz.itemzoom.client.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -12,82 +10,35 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-public class ComponentItem extends ComponentFont {
-    private final Config config;
-    protected ComponentItem(Config config){
-        this.config = config;
+public class ComponentItem extends ComponentBase {
+
+    protected ComponentItem(Config config) {
+        super(config);
     }
 
-    protected boolean renderZoomedStack(GuiGraphics guiGraphics, ItemStack itemStack, Rect2i availableArea, Minecraft minecraft) {
-        final int availableAreaX = availableArea.getX();
-        final int availableAreaY = availableArea.getY();
-        final int availableAreaWidth = availableArea.getWidth();
-        final int availableAreaHeight = availableArea.getHeight();
-
-        // item is 16 wide, give it some extra space on each side by using 17 here
-        final float scale = config.getZoomAmount() / 100f * availableAreaWidth / 17f;
-        if (scale <= 2.0f) {
-            // not enough room to be useful
-            return false;
-        }
-
-        final float renderWidth = scale * 16;
-        final float renderHeight = scale * 16;
-        final float xPosition = availableAreaX + ((availableAreaWidth - renderWidth) / 2f);
-        final float yPosition = availableAreaY + ((availableAreaHeight - renderHeight) / 2f);
+    @Override
+    protected void drawGraphics(GuiGraphics guiGraphics, ItemStack itemStack, float xPosition, float yPosition, float scale) {
 
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
-        {
-            poseStack.translate(xPosition, yPosition, 0);
-            poseStack.scale(scale, scale, 1);
 
-            guiGraphics.renderItem(itemStack, 0, 0);
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        poseStack.translate(xPosition, yPosition, 0);
+        poseStack.scale(scale, scale, 1);
 
-            renderItemOverlayIntoGUI(guiGraphics, itemStack);
-        }
+        guiGraphics.renderItem(itemStack, 0, 0);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+        renderOverlay(guiGraphics, itemStack);
+
         poseStack.popPose();
-
-        RenderSystem.applyModelViewMatrix();
-
-        if (config.showHelpText()) {
-            int y = availableAreaY + ((availableAreaHeight + Math.round(19 * scale)) / 2);
-
-            String modName = ItemZoom.MOD_NAME;
-            Font nameFont = getFont(minecraft, itemStack, IClientItemExtensions.FontContext.SELECTED_ITEM_NAME);
-
-            int stringWidth = nameFont.width(modName);
-            if (stringWidth < availableAreaWidth) {
-                int x = availableAreaX + ((availableAreaWidth - stringWidth) / 2);
-                guiGraphics.drawString(nameFont, modName, x, y, 4210752, false);
-
-                y += nameFont.lineHeight;
-            }
-
-            if (config.isToggledEnabled()) {
-                KeyBindings keyBindings = KeyBindings.getInstance();
-                Component displayName = keyBindings.toggle.getTranslatedKeyMessage();
-                String toggleText = displayName.getString();
-                Font minecraftFont = minecraft.font;
-                stringWidth = minecraftFont.width(toggleText);
-                if (stringWidth < availableAreaWidth) {
-                    int x = availableAreaX + ((availableAreaWidth - stringWidth) / 2);
-                    guiGraphics.drawString(minecraftFont, toggleText, x, y, 4210752, false);
-                }
-            }
-        }
-        return true;
     }
 
-    protected void renderItemOverlayIntoGUI(GuiGraphics guiGraphics, ItemStack itemStack) {
+    protected void renderOverlay(GuiGraphics guiGraphics, ItemStack itemStack) {
         if (itemStack.isEmpty()) {
             return;
         }

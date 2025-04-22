@@ -28,8 +28,8 @@ public class Config {
 				.define("toggled.enabled", true);
 
 		zoomAmount = builder
-				.comment("Set lower amount to make the item zoom less.")
-				.translation("config.itemzoom.zoom.amount")
+				.comment("Set lower amount to make the item finalDraw less.")
+				.translation("config.itemzoom.finalDraw.amount")
 				.defineInRange("zoom_amount", DEFAULT_ZOOM, MIN_ZOOM, MAX_ZOOM, Integer.class);
 
 		jeiOnly = builder

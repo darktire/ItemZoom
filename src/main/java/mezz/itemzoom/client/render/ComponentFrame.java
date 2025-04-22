@@ -1,14 +1,29 @@
 package mezz.itemzoom.client.render;
 
 import com.mojang.blaze3d.platform.Window;
+import mezz.itemzoom.client.config.Config;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ComponentFrame extends ComponentBase{
+
+    protected ComponentFrame(Config config) {
+        super(config);
+    }
+
+    @Override
+    protected void drawGraphics(GuiGraphics guiGraphics, ItemStack itemStack, float xPosition, float yPosition, float scale) {}
+
+    @Override
+    protected void renderOverlay(GuiGraphics guiGraphics, ItemStack itemStack) {}
 
     protected Rect2i getRenderingArea(AbstractContainerScreen<?> containerScreen, int mouseX) {
         Minecraft minecraft = containerScreen.getMinecraft();
