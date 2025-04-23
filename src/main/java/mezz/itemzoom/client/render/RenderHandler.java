@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 import mezz.itemzoom.client.compat.JeiCompat;
-import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.config.ConfigHelper;
 import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,13 +23,13 @@ public class RenderHandler {
 	public static Rect2i rendering = null;
 	@Nullable
 	private static Rect2i renderedThisFrame = null;
-	private final Config config;
+	private final ConfigHelper config;
 	private final Supplier<Boolean> isEnableKeyHeld;
 	private final ComponentFrame componentFrame;
 	private final ComponentModel componentModel;
 	private final ComponentItem componentItem;
 
-	public RenderHandler(Config config, Supplier<Boolean> isEnableKeyHeld) {
+	public RenderHandler(ConfigHelper config, Supplier<Boolean> isEnableKeyHeld) {
 		this.config = config;
 		this.isEnableKeyHeld = isEnableKeyHeld;
 		this.componentFrame = new ComponentFrame(config);
@@ -43,7 +43,7 @@ public class RenderHandler {
 	}
 
 	public void onItemStackTooltip(GuiGraphics guiGraphics, @Nullable ItemStack itemStack, int x, int y) {
-		if (!config.isToggledEnabled() && !isEnableKeyHeld.get()) {
+		if (!config.getToggleEnable() && !isEnableKeyHeld.get()) {
 			return;
 		}
 		if (itemStack == null || itemStack.isEmpty()) {

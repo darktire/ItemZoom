@@ -1,20 +1,20 @@
-package mezz.itemzoom.client;
+package mezz.itemzoom.client.key;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.config.ConfigHelper;
 
 public class InputHandler {
-	private final Config config;
+	private final ConfigHelper config;
 	private boolean enableKeyHeld = false;
 
-	public InputHandler(Config config) {
+	public InputHandler(ConfigHelper config) {
 		this.config = config;
 	}
 
 	public boolean handleInput(InputConstants.Key input) {
 		KeyBindings keyBindings = KeyBindings.getInstance();
 		if (keyBindings.toggle.isActiveAndMatches(input)) {
-			config.toggleEnabled();
+			config.toggleEnable();
 			return true;
 		} else if (keyBindings.zoomIn.isActiveAndMatches(input)) {
 			config.increaseZoom();

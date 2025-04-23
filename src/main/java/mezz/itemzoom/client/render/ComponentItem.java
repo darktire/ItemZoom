@@ -3,7 +3,7 @@ package mezz.itemzoom.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.config.ConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +17,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ComponentItem extends ComponentBase {
 
-    protected ComponentItem(Config config) {
+    protected ComponentItem(ConfigHelper config) {
         super(config);
     }
 
@@ -48,7 +48,7 @@ public class ComponentItem extends ComponentBase {
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
         {
-            if (config.showStackSize() && itemStack.getCount() != 1) {
+            if (config.getShowStackSize() && itemStack.getCount() != 1) {
                 String countString = String.valueOf(itemStack.getCount());
                 Font itemCountFont = getFont(minecraft, itemStack, IClientItemExtensions.FontContext.ITEM_COUNT);
 
@@ -70,7 +70,7 @@ public class ComponentItem extends ComponentBase {
                 bufferSource.endBatch();
             }
 
-            if (config.showDurabilityBar() && itemStack.isBarVisible()) {
+            if (config.getShowDurability() && itemStack.isBarVisible()) {
                 RenderSystem.disableDepthTest();
                 int k = itemStack.getBarWidth();
                 int l = itemStack.getBarColor();
@@ -79,7 +79,7 @@ public class ComponentItem extends ComponentBase {
                 RenderSystem.enableDepthTest();
             }
 
-            if (config.showCooldown()) {
+            if (config.getShowCooldown()) {
                 LocalPlayer localplayer = minecraft.player;
                 if (localplayer != null) {
                     ItemCooldowns cooldowns = localplayer.getCooldowns();

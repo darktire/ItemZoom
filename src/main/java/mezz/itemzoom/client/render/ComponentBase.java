@@ -2,8 +2,8 @@ package mezz.itemzoom.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.itemzoom.ItemZoom;
-import mezz.itemzoom.client.KeyBindings;
-import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.key.KeyBindings;
+import mezz.itemzoom.client.config.ConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,9 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public abstract class ComponentBase {
-    protected final Config config;
+    protected final ConfigHelper config;
 
-    protected ComponentBase(Config config) {
+    protected ComponentBase(ConfigHelper config) {
         this.config = config;
     }
 
@@ -47,7 +47,7 @@ public abstract class ComponentBase {
     }
 
     protected void drawText(GuiGraphics guiGraphics, ItemStack itemStack, int availableAreaX, int availableAreaY, int availableAreaWidth, int availableAreaHeight, float scale, Minecraft minecraft) {
-        if (config.showHelpText()) {
+        if (config.getShowHelp()) {
             int y = availableAreaY + ((availableAreaHeight + Math.round(19 * scale)) / 2);
 
             String modName = ItemZoom.MOD_NAME;
@@ -61,7 +61,7 @@ public abstract class ComponentBase {
                 y += nameFont.lineHeight;
             }
 
-            if (config.isToggledEnabled()) {
+            if (config.getToggleEnable()) {
                 KeyBindings keyBindings = KeyBindings.getInstance();
                 Component displayName = keyBindings.toggle.getTranslatedKeyMessage();
                 String toggleText = displayName.getString();

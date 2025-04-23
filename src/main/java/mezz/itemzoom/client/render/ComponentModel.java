@@ -2,7 +2,7 @@ package mezz.itemzoom.client.render;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.config.ConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -20,7 +20,7 @@ public class ComponentModel extends ComponentBase {
     private static final float ROTATE_COEFFICIENT = 0.4f;
     private static float rotateValue = 0;
     private static final int ENTITY_SIZE = 10;
-    protected ComponentModel(Config config){
+    protected ComponentModel(ConfigHelper config){
         super(config);
     }
 

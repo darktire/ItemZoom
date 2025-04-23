@@ -1,4 +1,4 @@
-package mezz.itemzoom.client;
+package mezz.itemzoom.client.key;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import mezz.itemzoom.ItemZoom;
@@ -17,7 +17,7 @@ public class KeyBindings {
 	public final KeyMapping zoomIn;
 	public final KeyMapping zoomOut;
 
-	public static void create(RegisterKeyMappingsEvent registerEvent) {
+	public static void init(RegisterKeyMappingsEvent registerEvent) {
 		INSTANCE = new KeyBindings(registerEvent);
 	}
 

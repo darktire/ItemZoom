@@ -2,6 +2,7 @@ package mezz.itemzoom.client.render;
 
 import com.mojang.blaze3d.platform.Window;
 import mezz.itemzoom.client.config.Config;
+import mezz.itemzoom.client.config.ConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,7 +16,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ComponentFrame extends ComponentBase{
 
-    protected ComponentFrame(Config config) {
+    protected ComponentFrame(ConfigHelper config) {
         super(config);
     }
 

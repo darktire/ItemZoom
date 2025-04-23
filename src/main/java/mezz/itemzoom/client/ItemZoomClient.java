@@ -1,10 +1,13 @@
-package mezz.itemzoom;
+package mezz.itemzoom.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import mezz.itemzoom.client.InputHandler;
-import mezz.itemzoom.client.KeyBindings;
+import mezz.itemzoom.client.config.Options;
+import mezz.itemzoom.client.gui.OptionsScreen;
+import mezz.itemzoom.client.key.InputHandler;
+import mezz.itemzoom.client.key.KeyBindings;
+import mezz.itemzoom.client.config.ConfigHelper;
 import mezz.itemzoom.client.render.RenderHandler;
-import mezz.itemzoom.client.config.Config;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -16,19 +19,26 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import static mezz.itemzoom.ItemZoom.MOD_ID;
+import static mezz.itemzoom.ItemZoom.config;
+
 public class ItemZoomClient {
+	public static final ConfigScreenHandler.ConfigScreenFactory FACTORY = new ConfigScreenHandler.ConfigScreenFactory(
+			(mc, screen) -> new OptionsScreen(screen)
+	);
 	public static void run() {
-		Config config = new Config();
+		config = new ConfigHelper();
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modEventBus.addListener(EventPriority.NORMAL, false, RegisterKeyMappingsEvent.class, KeyBindings::create);
-		modEventBus.addListener(EventPriority.NORMAL, false, ModConfigEvent.Loading.class, configLoadingEvent -> {
-			setup(config);
+		modEventBus.addListener(EventPriority.NORMAL, false, RegisterKeyMappingsEvent.class, KeyBindings::init);
+		modEventBus.addListener(EventPriority.NORMAL, false, ModConfigEvent.Loading.class, event -> setup(config));
+		modEventBus.addListener(EventPriority.NORMAL, false, ModConfigEvent.Loading.class, event -> {
+			if (event.getConfig().getModId().equals(MOD_ID)) Options.initInstance();
 		});
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, config.getConfigSpec());
 	}
 
-	private static void setup(Config config) {
+	private static void setup(ConfigHelper config) {
 		InputHandler inputHandler = new InputHandler(config);
 		RenderHandler renderHandler = new RenderHandler(config, inputHandler::isEnableKeyHeld);
 
